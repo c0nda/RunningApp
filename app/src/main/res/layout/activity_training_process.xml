@@ -28,7 +28,7 @@
         android:textColor="@color/black"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintHorizontal_bias="0.267"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chronometer" />
 
@@ -36,6 +36,7 @@
         android:layout_width="160dp"
         android:layout_height="70dp"
         android:layout_marginBottom="132dp"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -43,24 +44,53 @@
         tools:ignore="MissingConstraints">
 
         <ImageButton
-            android:id="@+id/Pause"
+            android:id="@+id/Resume"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="0dp"
             android:background="@drawable/circle_button"
-            android:src="@drawable/ic_pause"
-            android:onClick="onClickStopTraining"
-            tools:ignore="MissingConstraints" />
+            android:onClick="onClickResumeTraining"
+            android:src="@drawable/ic_resume"
+            tools:ignore="MissingConstraints,UsingOnClickInXml" />
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/Reset"-->
-<!--            android:layout_width="70dp"-->
-<!--            android:layout_height="70dp"-->
-<!--            android:layout_marginEnd="104dp"-->
-<!--            android:background="@drawable/circle_button"-->
-<!--            android:onClick="onClickReset"-->
-<!--            android:src=""-->
-<!--            tools:ignore="MissingConstraints" />-->
+        <ImageButton
+            android:id="@+id/StopTraining"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/circle_button"
+            android:onClick="onClickStopTraining"
+            android:src="@drawable/ic_stop"
+            tools:ignore="MissingConstraints,UsingOnClickInXml" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/currentPace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="--:--"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvDistance"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/avgPace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="--:--"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.733"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentPace"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

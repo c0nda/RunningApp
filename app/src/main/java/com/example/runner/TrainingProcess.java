@@ -1,12 +1,11 @@
 package com.example.runner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -27,14 +26,19 @@ public class TrainingProcess extends AppCompatActivity implements LocListenerInt
     private boolean running;
     private Handler handler;
     private Chronometer stopWatch;
-    private ImageButton buttonPause;
-    private ImageButton buttonReset;
+    private ImageButton buttonResume;
+    private ImageButton buttonStop;
 
     private LocationManager locationManager;
     private TextView tvDistance;
     private Location lastLocation;
     private MyLocListener myLocListener;
     private int distance;
+
+    private TextView tvCurrentPace;
+    private TextView tvAvgPace;
+    private double speed;
+    private double avg_speed = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,49 +47,54 @@ public class TrainingProcess extends AppCompatActivity implements LocListenerInt
         init();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
         stopWatch = findViewById(R.id.chronometer);
-        buttonPause = findViewById(R.id.Pause);
-//        buttonReset = findViewById(R.id.Reset);
-
-        handler = new Handler();
-        running = true;
-        tStart = SystemClock.uptimeMillis();
-        handler.postDelayed(runnable, 0);
+        buttonResume = findViewById(R.id.Resume);
+        buttonStop = findViewById(R.id.StopTraining);
+        buttonStop.setVisibility(View.GONE);
+        buttonResume.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
 
         tvDistance = findViewById(R.id.tvDistance);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         myLocListener = new MyLocListener();
         myLocListener.setLocListenerInterface(this);
-        checkPermission();
+        requestLocation();
+
+        running = true;
+        handler = new Handler();
+        tStart = SystemClock.uptimeMillis();
+        handler.postDelayed(runnable, 0);
+
+        tvCurrentPace = findViewById(R.id.currentPace);
+        tvAvgPace = findViewById(R.id.avgPace);
     }
 
-//    public void onClickStartTraining(View view) {
-//        if (!running) {
-//            Intent intent = new Intent(this, TrainingProcess.class);
-//            startActivity(intent);
-//            tStart = SystemClock.uptimeMillis();
-//            handler.postDelayed(runnable, 0);
-//            running = true;
-//        }
-//    }
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void onClickResumeTraining(View view) {
+        // Resume
+        if (!running) {
+            tStart = SystemClock.uptimeMillis();
+            handler.postDelayed(runnable, 0);
+            running = true;
+            buttonStop.setVisibility(View.GONE);
+            buttonResume.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause));
+            // Pause
+        } else {
+            tBuff += milliSec;
+            handler.removeCallbacks(runnable);
+            stopWatch.stop();
+            running = false;
+            buttonStop.setVisibility(View.VISIBLE);
+            buttonResume.setImageDrawable(getResources().getDrawable(R.drawable.ic_resume));
+        }
+    }
 
     public void onClickStopTraining(View view) {
-        tBuff += milliSec;
-        handler.removeCallbacks(runnable);
-        stopWatch.stop();
-        running = false;
+        if (!running) {
+            finish();
+        }
     }
-
-//    public void onClickReset(View view) {
-//        if (!running) {
-//            milliSec = 0L;
-//            tStart = 0L;
-//            tBuff = 0L;
-//            tUpdate = 0L;
-//            stopWatch.setText("0:00:00");
-//        }
-//    }
 
     public Runnable runnable = new Runnable() {
         @Override
@@ -103,33 +112,35 @@ public class TrainingProcess extends AppCompatActivity implements LocListenerInt
         }
     };
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100 && grantResults[0] == RESULT_OK) {
-            checkPermission();
-        }
-//        else {
-//            Toast.makeText(this, "No GPS permission", Toast.LENGTH_SHORT).show();
-//        }
-    }
 
-    private void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, myLocListener);
-        }
+    @SuppressLint("MissingPermission")
+    private void requestLocation() {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, myLocListener);
     }
 
     @Override
     public void OnLocationChanged(Location loc) {
-        if (loc.hasSpeed() && lastLocation != null) {
-            distance += lastLocation.distanceTo(loc);
+        if (running) {
+            if (loc.hasSpeed() && lastLocation != null) {
+                distance += lastLocation.distanceTo(loc);
+                speed = 50 / (3 * loc.getSpeed());
+                avg_speed = avg_speed == -1 ? speed : (avg_speed + speed) / 2;
+                int kilometers = distance / 1000;
+                int meters = distance % 1000 / 10;
+                String text_distance = String.format(Locale.getDefault(), "%d.%02d", kilometers, meters);
+                tvDistance.setText(text_distance);
+                int speed_min = (int) speed;
+                int speed_sec = (int) ((speed - speed_min) * 60);
+                int avg_speed_min = (int) avg_speed;
+                int avg_speed_sec = (int) ((avg_speed - avg_speed_min) * 60);
+                String text_speed = String.format(Locale.getDefault(), "%d.%02d", speed_min, speed_sec);
+                String text_avg_speed = String.format(Locale.getDefault(), "%d.%02d", avg_speed_min, avg_speed_sec);
+                tvCurrentPace.setText(text_speed);
+                tvAvgPace.setText(text_avg_speed);
+            }
+            lastLocation = loc;
+        } else {
+            tvCurrentPace.setText("--:--");
         }
-        lastLocation = loc;
-        tvDistance.setText(String.valueOf(distance));
     }
 }
