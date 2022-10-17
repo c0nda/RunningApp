@@ -1,15 +1,11 @@
 package com.example.runner;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -59,7 +55,7 @@ public class TrainingProcess extends AppCompatActivity implements LocListenerInt
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         myLocListener = new MyLocListener();
         myLocListener.setLocListenerInterface(this);
-        requestLocation();
+        requestPermission();
 
         running = true;
         handler = new Handler();
@@ -91,9 +87,7 @@ public class TrainingProcess extends AppCompatActivity implements LocListenerInt
     }
 
     public void onClickStopTraining(View view) {
-        if (!running) {
-            finish();
-        }
+        finish();
     }
 
     public Runnable runnable = new Runnable() {
@@ -112,9 +106,8 @@ public class TrainingProcess extends AppCompatActivity implements LocListenerInt
         }
     };
 
-
     @SuppressLint("MissingPermission")
-    private void requestLocation() {
+    private void requestPermission() {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, myLocListener);
     }
 
