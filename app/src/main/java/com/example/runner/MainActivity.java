@@ -6,16 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 
 public class MainActivity extends AppCompatActivity {
+    private LinearLayout mainButton;
     private ImageButton buttonStart;
 
     @Override
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         buttonStart = findViewById(R.id.StartTraining);
+        mainButton = findViewById(R.id.linearLayout);
         checkPermission();
     }
 
@@ -35,11 +38,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == RESULT_OK) {
             checkPermission();
+            buttonStart.setClickable(false);
+            mainButton.setBackground(getResources().getDrawable(R.drawable.circle_button_darker_gray));
+        } else {
+            buttonStart.setClickable(true);
+            mainButton.setBackground(getResources().getDrawable(R.drawable.circle_button));
         }
     }
 
