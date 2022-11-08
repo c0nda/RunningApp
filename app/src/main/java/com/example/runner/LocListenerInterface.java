@@ -3,5 +3,9 @@ package com.example.runner;
 import android.location.Location;
 
 public interface LocListenerInterface {
-    public void OnLocationChanged(Location loc);
+    void OnLocationChanged(Location loc);
+
+    void OnProviderEnabled(String provider);
+
+    void OnProviderDisabled(String provider);
 }
