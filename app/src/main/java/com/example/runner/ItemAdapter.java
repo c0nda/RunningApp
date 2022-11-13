@@ -1,6 +1,8 @@
 package com.example.runner;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -86,6 +88,19 @@ public class ItemAdapter extends ArrayAdapter<ItemTimer> {
                 if (s.toString().matches("^00")) {
                     viewHolder.editText.setText("0");
                 }
+                DBTimers dbTimers = new DBTimers(getContext());
+                SQLiteDatabase database = dbTimers.getWritableDatabase();
+                ContentValues cv = new ContentValues();
+                String timer_name = viewHolder.tvTimerName.getText().toString();
+                cv.put("name", timer_name);
+                if (viewHolder.editText.getText().toString().equals("")) {
+                    cv.put("seconds", 0);
+                } else {
+                    cv.put("seconds", Integer.parseInt(viewHolder.editText.getText().toString()));
+                }
+                database.update("timers", cv, "name = ?", new String[]{timer_name});
+                dbTimers.close();
+                database.close();
             }
         });
 

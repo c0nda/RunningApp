@@ -6,6 +6,57 @@
     android:layout_height="match_parent"
     tools:context=".TrainingProcess">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="356dp"
+        android:background="@drawable/circle_button"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer">
+
+
+        <ImageButton
+            android:id="@+id/StartTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="onClickStartTraining"
+            android:src="@drawable/ic_play" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvGpsStatus"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/circle_button"
+        android:gravity="center"
+        android:text="GPS"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/buttonLocationSettings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="12dp"
+        android:background="@android:color/transparent"
+        android:onClick="onClickLocationSettings"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="200dp"
@@ -33,15 +84,16 @@
         app:layout_constraintTop_toBottomOf="@+id/chronometer" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="160dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="132dp"
+        android:layout_marginTop="128dp"
         android:gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/avgPace"
+        tools:visibility="gone">
 
         <ImageButton
             android:id="@+id/Resume"
@@ -71,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:text="--:--"
+        android:text="@string/empty_pace"
         android:textColor="@color/black"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="--:--"
+        android:text="@string/empty_pace"
         android:textColor="@color/black"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,5 +144,157 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currentPace"
         tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:id="@+id/staticDownBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:divider="@drawable/separator"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/buttonTimer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_button"
+                android:onClick="onClickButtonTimer"
+                android:src="@drawable/ic_timer"
+                tools:ignore="UsingOnClickInXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/buttonTraining"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_button"
+                android:clickable="false"
+                android:src="@drawable/ic_directions_run" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/buttonProfile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circle_button"
+                android:onClick="onClickButtonProfile"
+                android:src="@drawable/ic_person_outline" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvGpsOn"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:text="Разрешите доступ к местоположению перед началом тренировки"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/chronometer"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLocationSettings"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toEndOf="@+id/tvGpsStatus"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Время"
+        android:textColor="@color/holo_blue_light"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer" />
+
+    <TextView
+        android:id="@+id/textViewDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:text="Расстояние(км)"
+        android:textColor="@color/holo_blue_light"
+        android:textSize="15sp"
+
+        app:layout_constraintEnd_toStartOf="@+id/textViewPace"
+        app:layout_constraintHorizontal_bias="0.561"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvDistance" />
+
+    <TextView
+        android:id="@+id/textViewPace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="72dp"
+        android:text="Темп(мин/км)"
+        android:textColor="@color/holo_blue_light"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentPace" />
+
+    <TextView
+        android:id="@+id/textViewAVGPace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Средний темп(мин/км)"
+        android:textColor="@color/holo_blue_light"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.825"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avgPace" />
+
+    <TextView
+        android:id="@+id/tvShowСalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="0"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistance" />
+
+    <TextView
+        android:id="@+id/textViewCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Калории"
+        android:textColor="@color/holo_blue_light"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewAVGPace"
+        app:layout_constraintHorizontal_bias="0.618"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvShowСalories" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

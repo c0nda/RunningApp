@@ -12,20 +12,12 @@
         android:weightSum="100"
         tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:id="@+id/totalTime"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:text="TextView" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="15"
-            android:orientation="horizontal"
-            android:background="@drawable/rectangle_separator">
+            android:background="@drawable/rectangle_separator"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivCycles"
@@ -86,6 +78,7 @@
                 android:ems="10"
                 android:gravity="center_horizontal"
                 android:inputType="number"
+                android:text="0"
                 android:textColor="@color/black"
                 android:textColorLink="@color/holo_blue_light"
                 android:textCursorDrawable="@null"
@@ -99,8 +92,7 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="71">
-        </ListView>
+            android:layout_weight="76"></ListView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -114,6 +106,7 @@
                 android:layout_height="45dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circle_button"
+                android:onClick="onClickButtonStartTraining"
                 android:text="Начать"
                 android:textColor="@color/white"
                 android:textSize="20dp"
@@ -202,6 +195,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/circle_button"
                     android:clickable="false"
+                    android:onClick="onClickButtonProfile"
                     android:src="@drawable/ic_person_outline" />
             </LinearLayout>
         </LinearLayout>
