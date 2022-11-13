@@ -24,7 +24,7 @@
 
 ## Процесс тренировки
 
-![image](https://github.com/c0nda/running-app/blob/main/gifs/Training.gif)
+![image](https://github.com/c0nda/running-app/blob/main/gifs/Training%20.gif)
 
 ---
 
