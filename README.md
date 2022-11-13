@@ -24,6 +24,7 @@
 
 ## Процесс тренировки
 
+![image](https://github.com/c0nda/running-app/blob/main/gifs/Training.gif)
 
 ---
 
@@ -31,6 +32,7 @@
 
 Пользователю предоставляется возможность изменить свои параметры(рост и вес) в профиле:
 
+![image](https://github.com/c0nda/running-app/blob/main/gifs/ShowProfile.gif)
 
 ---
 
@@ -38,6 +40,7 @@
 
 Пользователь настраивает количество циклов, количество таймеров и значения таймеров(в секундах). Есть возможность удаления таймера через удержание.
 
+![image](https://github.com/c0nda/running-app/blob/main/gifs/IntervalTimer.gif)
 
 ---
 
@@ -45,6 +48,7 @@
 
 Последние три секунды каждого таймера сопровождаются звуковым оповещением.
 
+![image](https://github.com/c0nda/running-app/blob/main/gifs/IntervalTraining.gif)
 
 
 
